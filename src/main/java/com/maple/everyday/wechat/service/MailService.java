@@ -1,11 +1,11 @@
-package com.maple.everyday.wechat.manager.mail;
+package com.maple.everyday.wechat.service;
 
 /**
  * @Description 发邮件的接口
  * @Date 2019/8/14 15:31
  * @Created by 王弘博
  */
-public interface IMailService {
+public interface MailService {
 
     /**
      * 发送文本邮件

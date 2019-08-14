@@ -1,5 +1,6 @@
-package com.maple.everyday.wechat.manager.mail;
+package com.maple.everyday.wechat.service.impl;
 
+import com.maple.everyday.wechat.service.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -20,7 +21,7 @@ import java.io.File;
  */
 @Slf4j
 @Component
-public class MailManager implements IMailService {
+public class MailServiceImpl implements MailService {
 
     @Resource
     private JavaMailSender mailSender;

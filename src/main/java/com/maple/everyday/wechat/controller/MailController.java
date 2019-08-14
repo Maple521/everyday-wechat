@@ -1,7 +1,7 @@
 package com.maple.everyday.wechat.controller;
 
 import com.maple.everyday.wechat.common.ExecutorUtils;
-import com.maple.everyday.wechat.manager.mail.IMailService;
+import com.maple.everyday.wechat.service.MailService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,11 +16,11 @@ import javax.annotation.Resource;
 public class MailController {
 
     @Resource
-    private IMailService mailService;
+    private MailService mailService;
 
     @GetMapping("/testMail")
     public void testMail() {
-        ExecutorUtils.execute(()->{
+        ExecutorUtils.execute(() -> {
             mailService.sendSimpleMail("547156671@qq.com", "么么哒", "hello，送你一颗小心心，并且给你翁栽倒");
         });
     }
