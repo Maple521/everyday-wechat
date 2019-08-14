@@ -18,6 +18,15 @@ public class Constants {
      */
     public static final String ONE_URL = "http://wufazhuce.com/";
 
+    /**
+     * 网易云音乐歌手信息接口
+     */
+    public static final String CLOUD_MUSIC_ARTIST = "https://api.imjad.cn/cloudmusic/?type=artist&id=";
+
+    /**
+     * 网易云音乐 音乐信息接口
+     */
+    public static final String CLOUD_MUSIC_SONG = "https://api.imjad.cn/cloudmusic/?type=song&id=";
 
 
 }

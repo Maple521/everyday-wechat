@@ -22,6 +22,9 @@ public class HttpClient {
 
     public String httpGet(String url) {
         HttpGet httpGet = new HttpGet(url);
+        httpInvoker.setConnectionRequestTimeout(10000);
+        httpInvoker.setConnectTimeout(10000);
+        httpInvoker.setSocketTimeout(10000);
         httpInvoker.init();
         return httpInvoker.invoke(httpGet, HttpInvoker.STRING_ENTITY_HANDLER);
     }
