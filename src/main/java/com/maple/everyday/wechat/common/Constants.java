@@ -14,19 +14,29 @@ public class Constants {
     public static final String APP_KEY = "4ZFA57PGi2LSh1gV";
 
     /**
+     * 分页，查1w条数据
+     */
+    public static final String PAGE = "offset=0&limit=10000";
+
+    /**
      * 一个主页
      */
     public static final String ONE_URL = "http://wufazhuce.com/";
 
     /**
-     * 网易云音乐歌手信息接口
+     * 网易云音乐 歌手信息接口
      */
     public static final String CLOUD_MUSIC_ARTIST = "https://api.imjad.cn/cloudmusic/?type=artist&id=";
 
     /**
+     * 网易云音乐 评论信息接口
+     */
+    public static final String CLOUD_MUSIC_COMMNENTS ="https://api.imjad.cn/cloudmusic/?type=comments&id=";
+
+    /**
      * 网易云音乐 音乐信息接口
      */
-    public static final String CLOUD_MUSIC_SONG = "https://api.imjad.cn/cloudmusic/?type=song&id=";
+    public static final String CLOUD_MUSIC_SONG = "http://music.163.com/song/media/outer/url?id=";
 
 
 }

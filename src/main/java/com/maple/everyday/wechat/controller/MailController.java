@@ -1,6 +1,8 @@
 package com.maple.everyday.wechat.controller;
 
 import com.maple.everyday.wechat.common.ExecutorUtils;
+import com.maple.everyday.wechat.model.CloudMusicSong;
+import com.maple.everyday.wechat.service.CloudMusicSongService;
 import com.maple.everyday.wechat.service.MailService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +20,14 @@ public class MailController {
     @Resource
     private MailService mailService;
 
-    @GetMapping("/testMail")
-    public void testMail() {
+    @Resource
+    private CloudMusicSongService songService;
+
+    @GetMapping("/mail")
+    public void mail() {
         ExecutorUtils.execute(() -> {
-            mailService.sendSimpleMail("547156671@qq.com", "么么哒", "hello，送你一颗小心心，并且给你翁栽倒");
+            CloudMusicSong cloudMusicSong = songService.selectById(4);
+            mailService.sendSimpleMail("547156671@qq.com", "小可爱，送你一首歌", cloudMusicSong.getSongAddress());
         });
     }
 }

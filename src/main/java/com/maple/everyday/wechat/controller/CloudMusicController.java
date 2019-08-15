@@ -7,8 +7,12 @@ import com.maple.everyday.wechat.common.Constants;
 import com.maple.everyday.wechat.common.ExecutorUtils;
 import com.maple.everyday.wechat.common.HttpClient;
 import com.maple.everyday.wechat.model.CloudMusicArtist;
+import com.maple.everyday.wechat.model.CloudMusicComments;
+import com.maple.everyday.wechat.model.CloudMusicHotComments;
 import com.maple.everyday.wechat.model.CloudMusicSong;
 import com.maple.everyday.wechat.service.CloudMusicArtistService;
+import com.maple.everyday.wechat.service.CloudMusicCommentsService;
+import com.maple.everyday.wechat.service.CloudMusicHotCommentsService;
 import com.maple.everyday.wechat.service.CloudMusicSongService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Description 网易云音乐 https://api.imjad.cn/cloudmusic/?type=?&id=?
@@ -47,6 +54,12 @@ public class CloudMusicController {
 
     @Resource
     private CloudMusicSongService songService;
+
+    @Resource
+    private CloudMusicCommentsService commentsService;
+
+    @Resource
+    private CloudMusicHotCommentsService hotCommentsService;
 
 
     @GetMapping("/music")
@@ -89,11 +102,55 @@ public class CloudMusicController {
                 Long songId = song.getJSONObject("privilege").getLong("id");
                 bean.setSongId(songId);
                 bean.setSongName(song.getString("name"));
-                String songResult = httpClient.httpGet(Constants.CLOUD_MUSIC_SONG + songId);
-                JSONObject parseObject = JSON.parseObject(songResult);
-                JSONObject jsonObject = (JSONObject) (parseObject.getJSONArray("data").get(0));
-                bean.setSongAddress(jsonObject.getString("url"));
+                bean.setSongAddress(Constants.CLOUD_MUSIC_SONG + songId + ".mp3");
                 songService.insert(bean);
+
+                String commnetsResult = httpClient.httpGet(Constants.CLOUD_MUSIC_COMMNENTS + songId);
+                JSONObject jsonObject = JSON.parseObject(commnetsResult);
+                if (200 != jsonObject.getInteger("code")) {
+                    return;
+                }
+                List<CloudMusicHotComments> needHotComments = new ArrayList<>();
+                JSONArray hotCommentsArray = jsonObject.getJSONArray("hotComments");
+                if (CollectionUtils.isNotEmpty(hotCommentsArray)) {
+                    for (Object hotComment : hotCommentsArray) {
+                        JSONObject hotCommentJson = (JSONObject) hotComment;
+                        CloudMusicHotComments hotComments = new CloudMusicHotComments();
+                        hotComments.setCommentDate(new Date(Long.valueOf(hotCommentJson.getString("time"))));
+                        hotComments.setContent(hotCommentJson.getString("content"));
+                        hotComments.setLikeCount(hotCommentJson.getIntValue("likedCount"));
+                        hotComments.setSongId(songId);
+                        JSONObject user = hotCommentJson.getJSONObject("user");
+                        hotComments.setUserId(user.getLong("userId"));
+                        hotComments.setUserName(user.getString("nickname"));
+                        hotComments.setUserPic(user.getString("avatarUrl"));
+                        needHotComments.add(hotComments);
+                    }
+                }
+
+                List<CloudMusicComments> needComments = new ArrayList<>();
+                JSONArray commentsArray = jsonObject.getJSONArray("comments");
+                if (CollectionUtils.isNotEmpty(commentsArray)) {
+                    for (Object comment : commentsArray) {
+                        JSONObject commentJson = (JSONObject) comment;
+                        CloudMusicComments comments = new CloudMusicComments();
+                        comments.setCommentDate(new Date(Long.valueOf(commentJson.getString("time"))));
+                        comments.setContent(commentJson.getString("content"));
+                        comments.setLikeCount(commentJson.getIntValue("likedCount"));
+                        comments.setSongId(songId);
+                        JSONObject user = commentJson.getJSONObject("user");
+                        comments.setUserId(user.getLong("userId"));
+                        comments.setUserName(user.getString("nickname"));
+                        comments.setUserPic(user.getString("avatarUrl"));
+                        needComments.add(comments);
+                    }
+                }
+                if (CollectionUtils.isNotEmpty(needHotComments)) {
+                    hotCommentsService.insertBatch(needHotComments);
+                }
+                if (CollectionUtils.isNotEmpty(needComments)) {
+                    commentsService.insertBatch(needComments);
+                }
             });
         }
     }
