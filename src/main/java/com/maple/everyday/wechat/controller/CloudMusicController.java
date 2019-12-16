@@ -105,7 +105,7 @@ public class CloudMusicController {
                 bean.setSongAddress(Constants.CLOUD_MUSIC_SONG + songId + ".mp3");
                 songService.insert(bean);
 
-                String commnetsResult = httpClient.httpGet(Constants.CLOUD_MUSIC_COMMNENTS + songId);
+                String commnetsResult = httpClient.httpGet(Constants.CLOUD_MUSIC_COMMNENTS + songId + "&" + Constants.PAGE);
                 JSONObject jsonObject = JSON.parseObject(commnetsResult);
                 if (200 != jsonObject.getInteger("code")) {
                     return;

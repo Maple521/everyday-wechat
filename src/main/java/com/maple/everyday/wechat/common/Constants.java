@@ -14,9 +14,9 @@ public class Constants {
     public static final String APP_KEY = "4ZFA57PGi2LSh1gV";
 
     /**
-     * 分页，查1w条数据
+     * 分页，查100页数据
      */
-    public static final String PAGE = "offset=0&limit=10000";
+    public static final String PAGE = "offset=0&limit=100";
 
     /**
      * 一个主页
@@ -31,7 +31,7 @@ public class Constants {
     /**
      * 网易云音乐 评论信息接口
      */
-    public static final String CLOUD_MUSIC_COMMNENTS ="https://api.imjad.cn/cloudmusic/?type=comments&id=";
+    public static final String CLOUD_MUSIC_COMMNENTS = "https://api.imjad.cn/cloudmusic/?type=comments&id=";
 
     /**
      * 网易云音乐 音乐信息接口

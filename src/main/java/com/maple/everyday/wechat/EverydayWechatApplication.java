@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @MapperScan("com.maple.everyday.wechat.dao")
-@ComponentScan({"com.bj.loan","com.maple.everyday.wechat"})
+@ComponentScan({"com.bj.loan", "com.maple.everyday.wechat"})
 @SpringBootApplication
 public class EverydayWechatApplication {
 

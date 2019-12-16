@@ -26,8 +26,8 @@ public class MailController {
     @GetMapping("/mail")
     public void mail() {
         ExecutorUtils.execute(() -> {
-            CloudMusicSong cloudMusicSong = songService.selectById(4);
-            mailService.sendSimpleMail("547156671@qq.com", "小可爱，送你一首歌", cloudMusicSong.getSongAddress());
+            CloudMusicSong cloudMusicSong = songService.selectById(1);
+            mailService.sendSimpleMail("295613906@qq.com", "小可爱，送你一首歌", cloudMusicSong.getSongAddress());
         });
     }
 }

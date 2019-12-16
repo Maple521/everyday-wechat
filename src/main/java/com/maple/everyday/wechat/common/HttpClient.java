@@ -7,8 +7,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 /**
  * @Description HttpClient工具类
  * @Date 2019/8/14 9:20
@@ -17,14 +15,10 @@ import javax.annotation.Resource;
 @Component
 public class HttpClient {
 
-    @Resource
-    private HttpInvoker httpInvoker;
+    private HttpInvoker httpInvoker = new HttpInvoker();
 
     public String httpGet(String url) {
         HttpGet httpGet = new HttpGet(url);
-        httpInvoker.setConnectionRequestTimeout(10000);
-        httpInvoker.setConnectTimeout(10000);
-        httpInvoker.setSocketTimeout(10000);
         httpInvoker.init();
         return httpInvoker.invoke(httpGet, HttpInvoker.STRING_ENTITY_HANDLER);
     }
